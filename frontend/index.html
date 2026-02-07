@@ -4,6 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Epigraphs Graph</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Explore a 3D interactive graph of literary epigraph connections. Discover how books, poems, and plays reference each other through epigraphs across thousands of works." />
+  <meta name="keywords" content="epigraphs, epigraphs db, literary epigraphs, epigraph database, book connections, literary graph, 3d graph, literature visualization, epigraph references" />
+  <meta name="author" content="Keane Moraes" />
+  <link rel="canonical" href="https://epigraphs-db.vercel.app/" />
+
+  <!-- Open Graph (for social sharing / link previews) -->
+  <meta property="og:title" content="Epigraphs DB — Interactive 3D Graph of Literary Epigraph Connections" />
+  <meta property="og:description" content="Explore how thousands of literary works reference each other through epigraphs in an interactive 3D force-directed graph." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://epigraphs-db.vercel.app/" />
+  <meta property="og:image" content="https://epigraphs-db.vercel.app/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Epigraphs DB — Interactive 3D Graph of Literary Epigraph Connections" />
+  <meta name="twitter:description" content="Explore how thousands of literary works reference each other through epigraphs in an interactive 3D graph." />
+  <meta name="twitter:image" content="https://epigraphs-db.vercel.app/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -47,7 +66,7 @@
       color: #fff;
     }
     #loading-overlay h3 {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 100;
       width: 500px;
       color: #a0a0a0;
@@ -248,7 +267,7 @@
       right: 20px;
       font-size: 10px;
       color: #444;
-      z-index: 50;
+      z-index: 1100;
     }
     #attribution a { color: #666; text-decoration: none; }
     #attribution a:hover { color: #999; }
@@ -299,7 +318,9 @@
 
   <!-- Attribution -->
   <div id="attribution">
-    Data from <a href="https://bond-lab.github.io/epigraphs/" target="_blank">Bond Lab Epigraphs Project</a>
+    Data from <a href="https://bond-lab.github.io/epigraphs/" target="_blank">Computation Linguistics Lab Epigraphs Project</a>
+    &nbsp;·&nbsp;
+    Made with ♥ by <a href="https://keanemoraes.com" target="_blank">Keane Moraes</a>
   </div>
 
   <script src="bundle.js"></script>
