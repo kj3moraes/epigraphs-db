@@ -14,8 +14,6 @@ const BG_COLOR = "#0a0a0a";
 var graphData = json;
 var Graph = null;
 var hoveredNode = null;
-var selectedEdge = null;
-var clickedNode = null; 
 var keysPressed = {};
 const MOVE_SPEED = 3;
 const ROTATE_SPEED = 0.015;
@@ -106,8 +104,12 @@ Graph = ForceGraph3D()(document.getElementById("graph-container"))
   })
   .warmupTicks(80)
   .cooldownTicks(200)
-  .d3AlphaDecay(0.02)
-  .d3VelocityDecay(0.3);
+  .cooldownTime(8000)
+  .d3AlphaDecay(0.03)
+  .d3VelocityDecay(0.4)
+  .onEngineStop(function () {
+    Graph.zoomToFit(1000, 50);
+  });
 
 // Adjust force engine
 Graph.d3Force("charge").strength(-30);
@@ -246,14 +248,6 @@ function animateControls() {
     camera.position.addScaledVector(right, MOVE_SPEED);
     if (controls && controls.target)
       controls.target.addScaledVector(right, MOVE_SPEED);
-  }
-
-  // Q/E for roll (rotate around forward axis)
-  if (keysPressed["q"]) {
-    camera.rotateOnAxis(new THREE.Vector3(0, 0, 1), ROLL_SPEED);
-  }
-  if (keysPressed["e"]) {
-    camera.rotateOnAxis(new THREE.Vector3(0, 0, 1), -ROLL_SPEED);
   }
 
   // Arrow keys for rotation (orbit-style)
