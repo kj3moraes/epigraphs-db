@@ -15,6 +15,7 @@ var graphData = json;
 var Graph = null;
 var hoveredNode = null;
 var selectedEdge = null;
+var clickedNode = null; 
 var keysPressed = {};
 const MOVE_SPEED = 3;
 const ROTATE_SPEED = 0.015;
@@ -58,11 +59,11 @@ Graph = ForceGraph3D()(document.getElementById("graph-container"))
     return NODE_COLOR;
   })
   .nodeOpacity(0.9)
-  .nodeLabel(function () {
-    return "";
+  .nodeLabel(function (n) {
+    return ""
   })
   .linkWidth(2.0)
-  .linkOpacity(0.3)
+  .linkOpacity(0.5)
   .linkColor(function (l) {
     if (hoveredNode) {
       var src = typeof l.source === "object" ? l.source.id : l.source;
@@ -168,13 +169,6 @@ function showEdgeCard(link) {
       '<div class="epigraph-text">"' + escHtml(link.epigraph) + '"</div>';
   }
 
-  if (srcNode && srcNode.country) {
-    html +=
-      '<div class="value" style="margin-top:-6px;font-size:11px;color:#888;">Country: ' +
-      escHtml(srcNode.country) +
-      "</div>";
-  }
-
   html += '<div class="arrow-indicator">↓</div>';
 
   // Target work (contains the epigraph)
@@ -191,12 +185,6 @@ function showEdgeCard(link) {
     html +=
       '<div class="value" style="margin-top:-6px;font-size:11px;color:#888;">Genre: ' +
       escHtml(tgtNode.genre) +
-      "</div>";
-  }
-  if (tgtNode && tgtNode.country) {
-    html +=
-      '<div class="value" style="margin-top:-6px;font-size:11px;color:#888;">Nationality: ' +
-      escHtml(tgtNode.country) +
       "</div>";
   }
 
