@@ -6,9 +6,23 @@ import json from "./graphData.json";
 const NODE_COLOR = "#059669";
 const NODE_HOVER_COLOR = "#ffe213";
 const NODE_CONNECTED = "#e37622";
+const NODE_UNKNOWN_YEAR = "#555555";
 const LINK_COLOR = "rgba(130, 168, 245, 0.8)";
 const LINK_HOVER_COLOR = "#ffe213";
 const BG_COLOR = "#0a0a0a";
+
+// ─── YEAR → COLOR (blue=old → emerald=modern) ──────────
+const YEAR_MIN = 1500;
+const YEAR_MAX = 2025;
+function yearToColor(year) {
+  if (!year || year < YEAR_MIN) return NODE_UNKNOWN_YEAR;
+  var t = Math.max(0, Math.min(1, (year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)));
+  // Hue: 220 (deep blue, old) → 160 (emerald, modern)
+  var h = 220 - t * 60;
+  // Lightness: 35% (old, darker) → 55% (modern, brighter)
+  var l = 35 + t * 20;
+  return "hsl(" + h + ", 70%, " + l + "%)";
+}
 
 // ─── STATE ───────────────────────────────────────────────
 var graphData = json;
@@ -17,7 +31,6 @@ var hoveredNode = null;
 var keysPressed = {};
 const MOVE_SPEED = 3;
 const ROTATE_SPEED = 0.015;
-const ROLL_SPEED = 0.02;
 
 // ─── BUILD LOOKUPS ──────────────────────────────────────
 var nodeMap = {};
@@ -54,7 +67,7 @@ Graph = ForceGraph3D()(document.getElementById("graph-container"))
       if (adjNodes[hoveredNode.id] && adjNodes[hoveredNode.id].has(n.id))
         return NODE_CONNECTED;
     }
-    return NODE_COLOR;
+    return yearToColor(n.year);
   })
   .nodeOpacity(0.9)
   .nodeLabel(function (n) {
@@ -125,6 +138,19 @@ Graph = ForceGraph3D()(document.getElementById("graph-container"))
 // Adjust force engine
 Graph.d3Force("charge").strength(-30);
 Graph.d3Force("link").distance(60);
+
+// Custom force: bias Y-position by publication year
+// Old works (1500) drift to bottom, modern works (2025) drift to top
+Graph.d3Force("year", function (alpha) {
+  var strength = alpha * 0.3;
+  graphData.nodes.forEach(function (n) {
+    if (n.year && n.year >= YEAR_MIN) {
+      var t = (n.year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+      var targetY = (t - 0.5) * 1000; // range: -500 (old) to +500 (modern)
+      n.vy += (targetY - n.y) * strength;
+    }
+  });
+});
 
 // Hide loading after a delay
 setTimeout(function () {
