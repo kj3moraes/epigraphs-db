@@ -136,7 +136,7 @@ function updateNodePanel(node) {
   var panel = document.getElementById("node-panel");
   if (!node) {
     panel.innerHTML =
-      '<h2 id="np-default-msg" style="font-size:15px;font-weight:400;color:#666;">Hover over a node to see details</h2>';
+      '<h2 id="np-default-msg" style="font-size:15px;font-weight:400;color:#666;">Hover over a node to see details. Click on a link to see details</h2>';
     return;
   }
   var html = "<h2>" + escHtml(node.title) + "</h2>";
