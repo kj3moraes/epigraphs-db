@@ -62,6 +62,17 @@ Graph = ForceGraph3D()(document.getElementById("graph-container"))
   })
   .linkWidth(2.0)
   .linkOpacity(0.5)
+  .linkDirectionalArrowLength(6)
+  .linkDirectionalArrowRelPos(0.5)
+  .linkDirectionalArrowColor(function (l) {
+    if (hoveredNode) {
+      var src = typeof l.source === "object" ? l.source.id : l.source;
+      var tgt = typeof l.target === "object" ? l.target.id : l.target;
+      if (src === hoveredNode.id || tgt === hoveredNode.id)
+        return LINK_HOVER_COLOR;
+    }
+    return LINK_COLOR;
+  })
   .linkColor(function (l) {
     if (hoveredNode) {
       var src = typeof l.source === "object" ? l.source.id : l.source;
